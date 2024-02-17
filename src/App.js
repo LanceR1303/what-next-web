@@ -1,23 +1,30 @@
 import logo from './logo.svg';
 import './App.css';
+import api from "./api/axiosConfig";
+import {useState, useEffect} from 'react';
 
 function App() {
+  const[jobs, setJobsState] = useState();
+
+
+  //TODO: Parameterise this.
+  const getJobs = async() => {
+    try {
+        const jobResponse = await api.get("/v1/jobs");
+        console.log(jobResponse.data)
+        setJobsState(jobResponse.data)
+    }
+    catch(err) {
+        console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    getJobs();
+  },[])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
     </div>
   );
 }
